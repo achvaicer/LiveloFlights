@@ -9,7 +9,7 @@ namespace LiveloFlights.Domain
 {
     public class Airport
     {
-        [XmlElement("cityName")]
+		[XmlElement("cityName")]
         public string City { get; set; }
         [XmlElement("iata")]
         public string IATA { get; set; }

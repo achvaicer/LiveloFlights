@@ -9,11 +9,17 @@ namespace LiveloFlights.Domain
 {
     public class Recommendation
     {
-        [XmlElement("airline")]
+		public Recommendation()
+		{
+
+		}
+		[XmlElement("airline")]
         public string Airline { get; set; }
 
         [XmlElement("farePerPassenger")]
         public Money FarePerPassenger { get; set; }
 
+        [XmlElement("leaveList")]
+		public IList<Flight> Flights { get; set; }
     }
 }

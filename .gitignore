@@ -6,6 +6,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+*.userprefs
 
 # Build results
 [Dd]ebug/
@@ -18,6 +19,12 @@ build/
 bld/
 [Bb]in/
 [Oo]bj/
+
+# VS Code
+.vscode/
+
+#Apple
+.DS_Store
 
 # Roslyn cache directories
 *.ide/

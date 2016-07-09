@@ -1,5 +1,6 @@
 ﻿using RestSharp;
 using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace LiveloFlights
 
             request.AddHeader("CVC-AGENT-SINE", "1");
             request.AddHeader("CVC-BRANCH-CODE", "1000");
-            request.AddHeader("LIVELO-LOYALTY-KEY", "");
+			request.AddHeader("LIVELO-LOYALTY-KEY", "");
 
             request.AddParameter("roundTrip", true);
             request.AddParameter("fromIATA", "RIO");
@@ -38,7 +39,10 @@ namespace LiveloFlights
             request.AddParameter("departuresQ", "Rio");
             request.AddParameter("arrivalsQ", "Mia");
 
-            var response = client.Get(request);
+			var response = client.Get<Domain.Result>(request);
+
+			var result = JsonConvert.DeserializeObject<Domain.Result>(response.Content);
+
 
         }
     }

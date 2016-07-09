@@ -8,6 +8,5 @@ namespace LiveloFlights.Domain
 {
     public class Fare
     {
-
-    }
+	}
 }
