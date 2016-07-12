@@ -5,12 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace LiveloFlights.Domain
 {
     public class Result
     {
-		[JsonProperty("airlines")]
+        [BsonId]
+        public MongoDB.Bson.ObjectId _id { get; set; }
+
+        [JsonProperty("airlines")]
 		public IList<Airline> Airlines { get; set; }
 
 		[JsonProperty("airports")]
@@ -18,5 +22,14 @@ namespace LiveloFlights.Domain
 
         [JsonProperty("recommendations")]
 		public IList<Recommendation> Recommendations { get; set; }
+
+        [JsonIgnore]
+        public string From { get; set; }
+        [JsonIgnore]
+        public string To { get; set; }
+        [JsonIgnore]
+        public DateTime Leave { get; set; }
+        [JsonIgnore]
+        public DateTime Return { get; set; }
     }
 }
