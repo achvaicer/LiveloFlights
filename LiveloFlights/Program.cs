@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Configuration;
 
+
 namespace LiveloFlights
 {
     class Program
@@ -18,8 +19,10 @@ namespace LiveloFlights
             var key = ConfigurationManager.AppSettings["LIVELO-LOYALTY-KEY"];
             var winner = new Domain.Recommendation() { FarePerPassenger = new Domain.Money { Value = decimal.MaxValue } };
 
-			var resultRepository = new MongoRepository(ConfigurationManager.AppSettings["MONGO-CONNECTION"], 
-			                                                          ConfigurationManager.AppSettings["MONGO-DBNAME"]);
+			var repository = new Repository.ResultRepository();
+
+            const string from = "RIO";
+            const string to = "MIA"; 
 
             for(var leave = new DateTime(2017, 01, 11); leave < new DateTime(2017, 01, 18); leave = leave.AddDays(1))
             {
@@ -29,14 +32,13 @@ namespace LiveloFlights
 
                     var request = new RestRequest("flights", Method.GET);
 
-
                     request.AddHeader("CVC-AGENT-SINE", "1");
                     request.AddHeader("CVC-BRANCH-CODE", "1000");
                     request.AddHeader("LIVELO-LOYALTY-KEY", key);
 
                     request.AddParameter("roundTrip", true);
-                    request.AddParameter("fromIATA", "RIO");
-                    request.AddParameter("toIATA", "MIA");
+                    request.AddParameter("fromIATA", from);
+                    request.AddParameter("toIATA", to);
                     request.AddParameter("leaveDate", leave.ToString("yyyy-MM-dd"));
                     request.AddParameter("returnDate", returnDate.ToString("yyyy-MM-dd"));
                     request.AddParameter("nonstop", false);
@@ -55,8 +57,13 @@ namespace LiveloFlights
                     var result = JsonConvert.DeserializeObject<Domain.Result>(response.Content);
                     if (result == null || result.Recommendations == null || !result.Recommendations.Any()) return;
 
-					resultRepository.Save(result);
+                    result.From = from;
+                    result.To = to;
+                    result.Leave = leave;
+                    result.Return = returnDate;
 
+					repository.Save(result);
+                    
                     var first = result.Recommendations.First();
 
                     if (first.FarePerPassenger.Value < winner.FarePerPassenger.Value)
