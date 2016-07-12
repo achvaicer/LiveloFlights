@@ -34,7 +34,7 @@ namespace LiveloFlights
 
                     request.AddParameter("roundTrip", true);
                     request.AddParameter("fromIATA", "RIO");
-                    request.AddParameter("toIATA", "CUN");
+                    request.AddParameter("toIATA", "MIA");
                     request.AddParameter("leaveDate", leave.ToString("yyyy-MM-dd"));
                     request.AddParameter("returnDate", returnDate.ToString("yyyy-MM-dd"));
                     request.AddParameter("nonstop", false);
