@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
+
 
 namespace LiveloFlights.Domain
 {
@@ -13,13 +14,13 @@ namespace LiveloFlights.Domain
 		{
 
 		}
-		[XmlElement("airline")]
+		[JsonProperty("airline")]
         public string Airline { get; set; }
 
-        [XmlElement("farePerPassenger")]
+        [JsonProperty("farePerPassenger")]
         public Money FarePerPassenger { get; set; }
 
-        [XmlElement("leaveList")]
+        [JsonProperty("leaveList")]
 		public IList<Flight> Flights { get; set; }
     }
 }

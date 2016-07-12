@@ -1,28 +1,30 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 
 namespace LiveloFlights.Domain
 {
 	public class Flight
 	{
-		[XmlElement("from")]
+		[JsonProperty("from")]
 		public string From { get; set; }
 
-		[XmlElement("landing")]
+		[JsonProperty("landing")]
 		public DateTime Landing { get; set; }
 
-		[XmlElement("stops")]
+		[JsonProperty("stops")]
 		public int Stops { get; set; }
 
-		[XmlElement("takeoff")]
+		[JsonProperty("takeoff")]
 		public DateTime TakeOff { get; set; }
 
-		[XmlElement("to")]
+		[JsonProperty("to")]
 		public string To { get; set; }
-	}
+
+        public IList<Leg> Legs { get; set; }
+    }
 }
 
