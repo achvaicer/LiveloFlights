@@ -21,6 +21,9 @@ namespace LiveloFlights.Domain
         public Money FarePerPassenger { get; set; }
 
         [JsonProperty("leaveList")]
-		public IList<Flight> Flights { get; set; }
+		public IList<Flight> LeaveFlights { get; set; }
+
+		[JsonProperty("returnList")]
+		public IList<Flight> ReturnFlights { get; set; }
     }
 }

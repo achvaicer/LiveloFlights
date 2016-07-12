@@ -18,7 +18,9 @@ namespace LiveloFlights
             var key = ConfigurationManager.AppSettings["LIVELO-LOYALTY-KEY"];
             var winner = new Domain.Recommendation() { FarePerPassenger = new Domain.Money { Value = decimal.MaxValue } };
 
-            
+			var resultRepository = new MongoRepository(ConfigurationManager.AppSettings["MONGO-CONNECTION"], 
+			                                                          ConfigurationManager.AppSettings["MONGO-DBNAME"]);
+
             for(var leave = new DateTime(2017, 01, 11); leave < new DateTime(2017, 01, 18); leave = leave.AddDays(1))
             {
                 Parallel.For(10, 16, (days) =>
@@ -44,7 +46,7 @@ namespace LiveloFlights
                     request.AddParameter("international", "true");
                     request.AddParameter("fromId", "1");
                     request.AddParameter("toId", "1");
-                    request.AddParameter("limit", "10");
+                    request.AddParameter("limit", "1000");
                     request.AddParameter("offset", "1");
                     request.AddParameter("sort", "byLowestPrice");
                     
@@ -52,6 +54,8 @@ namespace LiveloFlights
 
                     var result = JsonConvert.DeserializeObject<Domain.Result>(response.Content);
                     if (result == null || result.Recommendations == null || !result.Recommendations.Any()) return;
+
+					resultRepository.Save(result);
 
                     var first = result.Recommendations.First();
 
@@ -65,8 +69,7 @@ namespace LiveloFlights
             }
 
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine("Lowest {0:N0}", winner.FarePerPassenger.Value);
-            Console.Read();
+			Console.WriteLine("Lowest {0:N0}", winner.FarePerPassenger.Value);
 
         }
     }
